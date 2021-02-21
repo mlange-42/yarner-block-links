@@ -4,6 +4,10 @@ A [Yarner](https://github.com/mlange-42/yarner) pre-processor that adds to each 
 
 Example:
 
+<table><tr><td>
+
+A list of links is placed under each code block that references other blocks:
+
 ```rust
 fn main() {
     // ==> Block A.
@@ -11,7 +15,22 @@ fn main() {
 }
 ```
 
-> Macros: [`Block A`](#block-block-a), [`Block A`](#block-block-b)
+> Macros: [`Block A`](#block-block-a), [`Block B`](#block-block-b)
+
+Other blocks:
+
+<a id="block-block-a"></a>
+```rust
+//- Block A
+print!("Hello");
+```
+
+<a id="block-block-b"></a>
+```rust
+//- Block B
+println!(" World!");
+```
+</td></tr></table>
 
 ## Installation
 
