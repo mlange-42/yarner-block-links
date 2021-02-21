@@ -56,7 +56,7 @@ The pre-processor provides optional configuration for link formatting. Defaults 
 
 ```toml
 [preprocessor.block-links]
-prefix = "> Macros: "
-join = ", "
-label = "`%s`"
+template = "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}"
+join = " "
+label = "`{{label}}`"
 ```
