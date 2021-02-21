@@ -18,7 +18,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     let prefix = config
         .get("prefix")
         .and_then(|s| s.as_str())
-        .unwrap_or("> Refs: ");
+        .unwrap_or("> Macros: ");
     let join = config.get("join").and_then(|s| s.as_str()).unwrap_or(", ");
     let label = config
         .get("label")
