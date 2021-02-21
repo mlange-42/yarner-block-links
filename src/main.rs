@@ -15,6 +15,16 @@ fn main() {
 fn run() -> Result<(), Box<dyn Error>> {
     let (config, mut documents) = yarner_lib::parse_input(std::io::stdin())?;
 
+    let prefix = config
+        .get("prefix")
+        .and_then(|s| s.as_str())
+        .unwrap_or("> Refs: ");
+    let join = config.get("join").and_then(|s| s.as_str()).unwrap_or(", ");
+    let label = config
+        .get("label")
+        .and_then(|s| s.as_str())
+        .unwrap_or("`%s`");
+
     for (_path, doc) in documents.iter_mut() {
         let mut idx = 0;
 
@@ -48,16 +58,17 @@ fn run() -> Result<(), Box<dyn Error>> {
 
                 if !links.is_empty() {
                     let insert_string = format!(
-                        "> Refs: {}",
+                        "{}{}",
+                        prefix,
                         links
                             .iter()
                             .map(|l| format!(
-                                "[`{}`](#block-{})",
-                                l,
+                                "[{}](#block-{})",
+                                label.replace("%s", l),
                                 l.to_lowercase().replace(" ", "-")
                             ))
                             .collect::<Vec<String>>()
-                            .join(", ")
+                            .join(join)
                     );
                     doc.nodes.insert(
                         idx + 1,
