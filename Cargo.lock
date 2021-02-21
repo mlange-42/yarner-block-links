@@ -168,7 +168,7 @@ dependencies = [
 [[package]]
 name = "yarner-lib"
 version = "0.4.1"
-source = "git+https://github.com/mlange-42/yarner.git?rev=29792f6#29792f6169291d5ec5373a67d66d8786d6e18e9c"
+source = "git+https://github.com/mlange-42/yarner.git?rev=54488e6#54488e62ad67e76472361a0ace509bd3b1e338cd"
 dependencies = [
  "regex",
  "serde",

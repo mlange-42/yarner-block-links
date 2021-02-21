@@ -1,6 +1,5 @@
 use std::error::Error;
-use yarner_lib::document::Node::Text;
-use yarner_lib::document::{Node, Source, TextBlock};
+use yarner_lib::{Node, Node::Text, Source, TextBlock};
 
 fn main() {
     std::process::exit(match run() {

@@ -5,4 +5,4 @@ authors = ["Martin Lange <martin.lange@ufz.de>"]
 edition = "2018"
 
 [dependencies]
-yarner-lib = { git = "https://github.com/mlange-42/yarner.git", rev = "29792f6" }
+yarner-lib = { git = "https://github.com/mlange-42/yarner.git", rev = "54488e6" }
