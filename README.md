@@ -1,6 +1,6 @@
 # yarner-block-links
 
-A [Yarner](https://github.com/mlange-42/yarner) pre-processor that adds to each code block a list of links to all referenced blocks.
+A [Yarner](https://github.com/mlange-42/yarner) pre-processor that adds to each code block a list of links to all referenced and all referencing blocks.
 
 Example:
 
@@ -8,28 +8,38 @@ Example:
 
 A list of links is placed under each code block that references other blocks:
 
+<a name="yarner-block-main-block" id="yarner-block-main-block"></a>
 ```rust
+//- Main block
 fn main() {
     // ==> Block A.
     // ==> Block B.
 }
 ```
 
-> Macros: [`Block A`](#block-block-a), [`Block B`](#block-block-b)
+> Macros: [`Block A`](#yarner-block-block-a) [`Block B`](#yarner-block-block-b)
 
-Other blocks:
+Blocks that are referenced by other blocks get a list of usages added.
 
-<a id="block-block-a"></a>
+The first referenced block:
+
+<a name="yarner-block-block-a" id="yarner-block-block-a"></a>
 ```rust
 //- Block A
 print!("Hello");
 ```
 
-<a id="block-block-b"></a>
+> Usage: [`Main block`](#yarner-block-main-block)
+
+The second referenced block:
+
+<a name="yarner-block-block-b" id="yarner-block-block-b"></a>
 ```rust
 //- Block B
 println!(" World!");
 ```
+
+> Usage: [`Main block`](#yarner-block-main-block)
 </td></tr></table>
 
 ## Installation
@@ -56,7 +66,7 @@ The pre-processor provides optional configuration for link formatting. Defaults 
 
 ```toml
 [preprocessor.block-links]
-prefix = "> Macros: "
-join = ", "
-label = "`%s`"
+template = "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}"
+join = " "
+label = "`{{label}}`"
 ```
