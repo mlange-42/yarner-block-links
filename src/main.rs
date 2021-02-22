@@ -5,7 +5,7 @@ use serde::Serialize;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::error::Error;
-use yarner_lib::{CodeBlock, Document, Node, Node::Text, Source, TextBlock};
+use yarner_lib::{CodeBlock, Context, Document, Node, Source, TextBlock};
 
 pub static CLEAN_LINK_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^a-zA-Z0-9]").unwrap());
 
@@ -20,18 +20,29 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<dyn Error>> {
-    let (config, mut documents) = yarner_lib::parse_input(std::io::stdin())?;
+    let (context, mut documents) = yarner_lib::parse_input()?;
 
-    let join = config.get("join").and_then(|s| s.as_str()).unwrap_or(" ");
+    check_version(&context);
 
-    let label = config
+    let join = context
+        .config
+        .get("join")
+        .and_then(|s| s.as_str())
+        .unwrap_or(" ");
+
+    let label = context
+        .config
         .get("label")
         .and_then(|s| s.as_str())
         .unwrap_or("`{{label}}`");
 
-    let template = config.get("template").and_then(|s| s.as_str()).unwrap_or(
-        "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}",
-    );
+    let template = context
+        .config
+        .get("template")
+        .and_then(|s| s.as_str())
+        .unwrap_or(
+            "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}",
+        );
 
     let mut hb = Handlebars::new();
     hb.register_escape_fn(no_escape);
@@ -60,21 +71,32 @@ fn run() -> Result<(), Box<dyn Error>> {
                 let used_by = usage.get(&name);
                 let macros = macros(block);
 
-                doc.nodes.insert(idx, Text(format_anchor(&name)));
+                doc.nodes.insert(idx, Node::Text(format_anchor(&name)));
                 idx += 1;
 
                 if let Some(links) = format_links(&hb, &macros, used_by, &doc.newline, &separator)?
                 {
-                    doc.nodes.insert(idx + 1, Text(links))
+                    doc.nodes.insert(idx + 1, Node::Text(links))
                 }
             }
             idx += 1;
         }
     }
 
-    let out_json = yarner_lib::to_json(&config, &documents)?;
-    println!("{}", out_json);
+    yarner_lib::write_output(&documents)?;
     Ok(())
+}
+
+pub fn check_version(context: &Context) {
+    if context.yarner_version != yarner_lib::YARNER_VERSION {
+        eprintln!(
+            "  Warning: The {} plugin was built against version {} of Yarner, \
+                    but we're being called from version {}",
+            context.name,
+            yarner_lib::YARNER_VERSION,
+            context.yarner_version
+        )
+    }
 }
 
 #[derive(Serialize)]
