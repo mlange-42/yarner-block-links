@@ -5,7 +5,7 @@ use serde::Serialize;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::error::Error;
-use yarner_lib::{CodeBlock, Context, Document, Node, Source, TextBlock};
+use yarner_lib::{CodeBlock, Context, Document, Line, Node, TextBlock};
 
 pub static CLEAN_LINK_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^a-zA-Z0-9]").unwrap());
 
@@ -20,29 +20,21 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<dyn Error>> {
-    let (context, mut documents) = yarner_lib::parse_input()?;
+    let mut data = yarner_lib::parse_input()?;
+    let config = &data.context.config;
 
-    check_version(&context);
+    check_version(&data.context);
 
-    let join = context
-        .config
-        .get("join")
-        .and_then(|s| s.as_str())
-        .unwrap_or(" ");
+    let join = config.get("join").and_then(|s| s.as_str()).unwrap_or(" ");
 
-    let label = context
-        .config
+    let label = config
         .get("label")
         .and_then(|s| s.as_str())
         .unwrap_or("`{{label}}`");
 
-    let template = context
-        .config
-        .get("template")
-        .and_then(|s| s.as_str())
-        .unwrap_or(
-            "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}",
-        );
+    let template = config.get("template").and_then(|s| s.as_str()).unwrap_or(
+        "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}",
+    );
 
     let mut hb = Handlebars::new();
     hb.register_escape_fn(no_escape);
@@ -50,7 +42,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     hb.register_template_string("label", label)?;
     hb.register_template_string("template", template)?;
 
-    for (_path, doc) in documents.iter_mut() {
+    for (_path, doc) in data.documents.iter_mut() {
         let separator = hb.render(
             "join",
             &Helpers {
@@ -83,7 +75,8 @@ fn run() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    yarner_lib::write_output(&documents)?;
+    yarner_lib::write_output(&data)?;
+
     Ok(())
 }
 
@@ -183,7 +176,7 @@ fn macros(block: &CodeBlock) -> Vec<String> {
         .source
         .iter()
         .filter_map(|line| {
-            if let Source::Macro(name) = &line.source {
+            if let Line::Macro { indent: _, name } = line {
                 Some(name.to_owned())
             } else {
                 None
@@ -198,7 +191,7 @@ fn block_usage(document: &Document) -> HashMap<String, Vec<String>> {
     for node in &document.nodes {
         if let Node::Code(block) = node {
             for line in &block.source {
-                if let Source::Macro(name) = &line.source {
+                if let Line::Macro { indent: _, name } = line {
                     let block_name = block
                         .name
                         .clone()
