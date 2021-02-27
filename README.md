@@ -46,7 +46,9 @@ println!(" World!");
 
 **Binaries**
 
-Pre-compiled binaries will be available as soon as this project is in a usable state.
+1. Download the [latest binaries](https://github.com/mlange-42/yarner-block-links/releases) for your platform  
+2. Unzip somewhere
+3. Add the parent directory of the executable to your `PATH` environmental variable
 
 **Using `cargo`**
 
