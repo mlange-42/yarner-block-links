@@ -1,6 +1,8 @@
 # yarner-block-links
 
-A [Yarner](https://github.com/mlange-42/yarner) pre-processor that adds to each code block a list of links to all referenced and all referencing blocks.
+[![Build Status](https://travis-ci.com/mlange-42/yarner-block-links.svg?branch=main)](https://travis-ci.com/mlange-42/yarner-block-links)
+
+A [Yarner](https://github.com/mlange-42/yarner) plugin that adds to each code block a list of links to all referenced and all referencing blocks.
 
 Example:
 
@@ -58,17 +60,25 @@ println!(" World!");
 
 ## Usage
 
-Add a section `preprocessor.block-links` to your `Yarner.toml`:
+Add a section `plugin.block-links` to your `Yarner.toml`:
 
 ```toml
-[preprocessor.block-links]
+[plugin.block-links]
 ```
 
-The pre-processor provides optional configuration for link formatting. Defaults are as follows (but all options can be left out):
+## Options
+
+The plugin provides optional configuration for link formatting. Defaults are as follows (but all options can be left out):
 
 ```toml
-[preprocessor.block-links]
+[plugin.block-links]
 template = "{{#if usage}}> Usage: {{usage}}  \n{{/if}}{{#if macros}}> Macros: {{macros}}{{/if}}"
 join = " "
 label = "`{{label}}`"
 ```
+
+| Option     | Details                                         |
+|------------|-------------------------------------------------|
+| `template` | Template for formatting of the links section(s) |
+| `join`     | Separator between links                         |
+| `label`    | Formatting of link labels                       |
