@@ -1,6 +1,7 @@
 # yarner-block-links
 
-[![Tests](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml/badge.svg)](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml)
+[![Test status](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml/badge.svg)](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml)
+[![Crate](https://img.shields.io/crates/v/yarner-block-links.svg)](https://crates.io/crates/yarner-block-links)
 
 A [Yarner](https://github.com/mlange-42/yarner) plugin that adds to each code block a list of links to all referenced and all referencing blocks.
 
@@ -55,7 +56,7 @@ println!(" World!");
 **Using `cargo`**
 
 ```
-> cargo install --git https://github.com/mlange-42/yarner-block-links.git --branch main
+> cargo install yarner-block-links
 ```
 
 ## Usage
