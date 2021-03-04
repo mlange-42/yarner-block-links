@@ -1,6 +1,6 @@
 # yarner-block-links
 
-[![Build Status](https://travis-ci.com/mlange-42/yarner-block-links.svg?branch=main)](https://travis-ci.com/mlange-42/yarner-block-links)
+[![Tests](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml/badge.svg)](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml)
 
 A [Yarner](https://github.com/mlange-42/yarner) plugin that adds to each code block a list of links to all referenced and all referencing blocks.
 
