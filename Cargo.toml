@@ -1,6 +1,6 @@
 [package]
 name = "yarner-block-links"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Martin Lange <martin_lange_@gmx.net>"]
 readme = "README.md"
 description = "A Yarner plugin that adds to each code block a list of links to all referenced and all referencing blocks"
