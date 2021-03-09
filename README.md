@@ -1,7 +1,9 @@
 # yarner-block-links
 
 [![Test status](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml/badge.svg)](https://github.com/mlange-42/yarner-block-links/actions/workflows/tests.yml)
+[![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/mlange-42/yarner-block-links)
 [![Crate](https://img.shields.io/crates/v/yarner-block-links.svg)](https://crates.io/crates/yarner-block-links)
+[![MIT license](https://img.shields.io/github/license/mlange-42/yarner-block-links)](https://github.com/mlange-42/yarner-block-links/blob/main/LICENSE)
 
 A [Yarner](https://github.com/mlange-42/yarner) plugin that adds to each code block a list of links to all referenced and all referencing blocks.
 

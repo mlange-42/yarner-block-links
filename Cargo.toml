@@ -4,6 +4,7 @@ version = "0.1.1"
 authors = ["Martin Lange <martin_lange_@gmx.net>"]
 readme = "README.md"
 description = "A Yarner plugin that adds to each code block a list of links to all referenced and all referencing blocks"
+keywords = ["markdown", "literate-programming", "plugin"]
 homepage = "https://github.com/mlange-42/yarner-block-links/"
 repository = "https://github.com/mlange-42/yarner-block-links/"
 license = "MIT"

@@ -55,20 +55,23 @@ fn run() -> Result<(), Box<dyn Error>> {
 
         while idx < doc.nodes.len() {
             if let Node::Code(block) = &doc.nodes[idx] {
-                let name = block
-                    .name
-                    .clone()
-                    .unwrap_or_else(|| "unnamed-block".to_string());
+                if !block.is_hidden {
+                    let name = block
+                        .name
+                        .clone()
+                        .unwrap_or_else(|| "unnamed-block".to_string());
 
-                let used_by = usage.get(&name);
-                let macros = macros(block);
+                    let used_by = usage.get(&name);
+                    let macros = macros(block);
 
-                doc.nodes.insert(idx, Node::Text(format_anchor(&name)));
-                idx += 1;
+                    doc.nodes.insert(idx, Node::Text(format_anchor(&name)));
+                    idx += 1;
 
-                if let Some(links) = format_links(&hb, &macros, used_by, &doc.newline, &separator)?
-                {
-                    doc.nodes.insert(idx + 1, Node::Text(links))
+                    if let Some(links) =
+                        format_links(&hb, &macros, used_by, &doc.newline, &separator)?
+                    {
+                        doc.nodes.insert(idx + 1, Node::Text(links))
+                    }
                 }
             }
             idx += 1;
